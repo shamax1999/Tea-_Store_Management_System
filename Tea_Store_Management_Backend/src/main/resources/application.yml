@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/TeaManagement
+    username: root
+    password: 1234
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+file:
+  upload-dir: D:/Tea _Store_Management/Tea_Store_Management_Frontend/Tea-Store-Management-frontend/src/assets/backend
+
+
+
