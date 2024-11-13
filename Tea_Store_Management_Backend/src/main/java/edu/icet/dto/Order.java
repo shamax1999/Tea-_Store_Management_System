@@ -22,6 +22,7 @@ public class Order {
     private String status; // Should match enum(Pending, Completed, Cancelled) in your database
     private String paymentMethod;
     private BigDecimal totalPrice;
+    private Integer quantity;
     private Integer adminId;
     private Integer managerId;
 

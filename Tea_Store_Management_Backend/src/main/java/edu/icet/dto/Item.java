@@ -1,5 +1,7 @@
 package edu.icet.dto;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,5 +29,9 @@ public class Item {
     private Integer quantity;
     private Integer adminId;
     private Integer managerId;
+
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] imageData;
 
 }

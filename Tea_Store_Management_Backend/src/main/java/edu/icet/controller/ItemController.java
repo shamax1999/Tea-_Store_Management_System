@@ -4,9 +4,13 @@ import edu.icet.dto.Item;
 import edu.icet.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,8 +25,9 @@ public class ItemController {
     }
 
     @PostMapping("/add-item")
-    public void addItem(@RequestBody Item item) {
-        itemService.addItem(item);
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addItem(@RequestPart("item") Item item, @RequestPart("image") MultipartFile imageData) throws IOException {
+        itemService.addItem(item, imageData);
     }
 
     @DeleteMapping("/delete-by-id/{itemId}")
@@ -32,8 +37,8 @@ public class ItemController {
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.OK)
-    public void updateItem(@RequestBody Item item) {
-        itemService.addItem(item); // Call update instead of add
+    public void updateItem(@RequestPart("item") Item item, @RequestPart(value = "image", required = false) MultipartFile imageData) throws IOException {
+        itemService.updateItem(item, imageData);
     }
 
 
@@ -52,7 +57,5 @@ public class ItemController {
     public List<Item> getByTeaType(@PathVariable String teaType){
         return itemService.searchByTeaType(teaType);
     }
-
-
 
 }

@@ -6,10 +6,13 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+
+  resources:
+    static-locations: file:uploads/
 
 file:
-  upload-dir: D:/Tea _Store_Management/Tea_Store_Management_Frontend/Tea-Store-Management-frontend/src/assets/backend
+  uploadDir: D:/Tea _Store_Management/Tea_Store_Management_Frontend/Tea-Store-Management-frontend/src/assets/backend
 
 
 

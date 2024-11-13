@@ -32,6 +32,7 @@ public class OrderEntity {
     private Payment paymentMethod;
 
     private BigDecimal totalPrice;
+    private Integer quantity;
     private Integer adminId;
     private Integer managerId;
 
