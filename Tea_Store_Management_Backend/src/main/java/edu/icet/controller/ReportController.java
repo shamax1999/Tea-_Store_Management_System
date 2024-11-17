@@ -3,8 +3,9 @@ package edu.icet.controller;
 import edu.icet.dto.Report;
 import edu.icet.service.ReportService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -16,13 +17,23 @@ public class ReportController {
     final ReportService reportService;
 
     @GetMapping("/get-all")
-    public List<Report> getItem() {
-        return reportService.getReport();
+    public List<Report> getReports() {
+        return reportService.getReports();
     }
 
     @PostMapping("/add-report")
-    public void addReport(@RequestBody Report report) {
-        reportService.addReport(report);
+    public void addReport(
+            @RequestParam("report") String reportJson,
+            @RequestParam("file") MultipartFile file) throws Exception {
+        reportService.addReportWithFile(reportJson, file);
+    }
+
+    @PutMapping("/update-report/{reportId}")
+    public void updateReport(
+            @PathVariable Integer reportId,
+            @RequestParam("report") String reportJson,
+            @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
+        reportService.updateReportWithFile(reportId, reportJson, file);
     }
 
     @DeleteMapping("/delete-by-id/{reportId}")
@@ -30,22 +41,8 @@ public class ReportController {
         reportService.deleteById(reportId);
     }
 
-    @PutMapping("/update")
-    @ResponseStatus(HttpStatus.OK)
-    public void updateReport(@RequestBody Report report) {
-        reportService.addReport(report);
+    @GetMapping("/get-file/{reportId}")
+    public ResponseEntity<byte[]> getFile(@PathVariable Integer reportId) {
+        return reportService.getFileByReportId(reportId);
     }
-
-
-    @GetMapping("/get-report-by-Id/{reportId}")
-    public List<Report> getByReportId(@PathVariable Integer reportId){
-        return reportService.searchByReportId(reportId);
-    }
-
-
-    @GetMapping("/get-report-by-reportType/{reportType}")
-    public List<Report> getByReportType(@PathVariable String reportType){
-        return reportService.searchByReportType(reportType);
-    }
-
 }

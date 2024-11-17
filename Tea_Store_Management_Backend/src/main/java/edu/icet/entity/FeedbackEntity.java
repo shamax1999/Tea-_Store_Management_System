@@ -18,6 +18,7 @@ public class FeedbackEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer feedbackId;
+    private String name;
 
     private Integer customerId;
     private String description;

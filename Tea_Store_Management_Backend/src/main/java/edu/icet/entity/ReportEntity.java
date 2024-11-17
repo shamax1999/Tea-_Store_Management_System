@@ -23,10 +23,17 @@ public class ReportEntity {
 
 
     private String pdfSrc;
+
+    @Lob
+    @Column(name = "pdf_file", columnDefinition = "LONGBLOB")
+    private byte[] pdfFile;
+
     private LocalDate date;
     private String reportName;
     private Integer adminId;
     private Integer managerId;
+
+
 
     public enum ReportType {
         Sales,

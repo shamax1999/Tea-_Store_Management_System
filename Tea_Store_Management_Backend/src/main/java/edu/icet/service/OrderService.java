@@ -17,4 +17,6 @@ public interface OrderService {
 
     List<Order> searchByCustomerId(Integer customerId);
 
+    double getTotalPrice();
+
 }

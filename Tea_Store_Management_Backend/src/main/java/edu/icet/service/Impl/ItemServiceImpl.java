@@ -6,6 +6,7 @@ import edu.icet.repository.itemRepository;
 import edu.icet.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,13 +21,15 @@ public class ItemServiceImpl implements ItemService {
     final itemRepository repository;
     final ModelMapper mapper;
 
+    private static final long MAX_FILE_SIZE = 3221225472L; // 3 GB
+
     @Override
     public List<Item> getItem() {
         List<Item> items = new ArrayList<>();
         repository.findAll().forEach(itemEntity -> {
             Item item = mapper.map(itemEntity, Item.class);
             if (itemEntity.getImageData() != null) {
-                item.setImageData(Base64.getEncoder().encodeToString(itemEntity.getImageData()).getBytes());
+                item.setImageData((itemEntity.getImageData()));
             }
             items.add(item);
         });
@@ -35,6 +38,10 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void addItem(Item item, MultipartFile image) throws IOException {
+        if (image.getSize() > MAX_FILE_SIZE) {
+            throw new IllegalArgumentException("File size exceeds the maximum limit of 3GB");
+        }
+
         ItemEntity itemEntity = mapper.map(item, ItemEntity.class);
 
         // Handle image as byte[] directly
@@ -46,14 +53,21 @@ public class ItemServiceImpl implements ItemService {
         repository.save(itemEntity);
     }
 
-
     @Override
     public void updateItem(Item item, MultipartFile image) throws IOException {
-        ItemEntity itemEntity = repository.findById(item.getItemId()).orElseThrow(() -> new RuntimeException("Item not found"));
-        mapper.map(item, itemEntity); // Update fields in existing entity
+        ItemEntity itemEntity = repository.findById(item.getItemId())
+                .orElseThrow(() -> new RuntimeException("Item not found"));
+
+        // Map updated fields to existing itemEntity
+        mapper.map(item, itemEntity);
+
         if (image != null && !image.isEmpty()) {
-            itemEntity.setImageData(Base64.getEncoder().encodeToString(item.getImageData()).getBytes());
+            if (image.getSize() > MAX_FILE_SIZE) {
+                throw new IllegalArgumentException("File size exceeds the maximum limit of 3GB");
+            }
+            itemEntity.setImageData(image.getBytes()); // Update the image data
         }
+
         repository.save(itemEntity);
     }
 
@@ -68,7 +82,7 @@ public class ItemServiceImpl implements ItemService {
         repository.findByItemId(itemId).forEach(entity -> {
             Item item = mapper.map(entity, Item.class);
             if (entity.getImageData() != null) {
-                item.setImageData(Base64.getEncoder().encodeToString(entity.getImageData()).getBytes());
+                item.setImageData((entity.getImageData()));
             }
             itemList.add(item);
         });
@@ -81,7 +95,7 @@ public class ItemServiceImpl implements ItemService {
         repository.findByItemName(itemName).forEach(entity -> {
             Item item = mapper.map(entity, Item.class);
             if (entity.getImageData() != null) {
-                item.setImageData(Base64.getEncoder().encodeToString(entity.getImageData()).getBytes());
+                item.setImageData((entity.getImageData()));
             }
             itemList.add(item);
         });
@@ -94,13 +108,16 @@ public class ItemServiceImpl implements ItemService {
         repository.findByTeaType(teaType).forEach(entity -> {
             Item item = mapper.map(entity, Item.class);
             if (entity.getImageData() != null) {
-                item.setImageData(Base64.getEncoder().encodeToString(entity.getImageData()).getBytes());
+                item.setImageData((entity.getImageData()));
             }
             itemList.add(item);
         });
         return itemList;
     }
 
-
-
+    public ResponseEntity<byte[]> getItemImageById(Integer itemId) {
+        ItemEntity itemEntity = repository.findById(itemId)
+                .orElseThrow(() -> new RuntimeException("Item not found"));
+        return ResponseEntity.ok().body(itemEntity.getImageData());
+    }
 }

@@ -11,6 +11,7 @@ import lombok.ToString;
 @ToString
 public class Feedback {
     private Integer feedbackId;
+    private String name;
 
     private Integer customerId;
     private String description;

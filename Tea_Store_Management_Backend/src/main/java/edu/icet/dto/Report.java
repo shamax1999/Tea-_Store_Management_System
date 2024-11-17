@@ -1,5 +1,6 @@
 package edu.icet.dto;
 
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,9 +17,14 @@ public class Report {
 
     private String reportType;
     private String pdfSrc;
+
+    @Lob
+    private byte[] pdfFile;
+
     private LocalDate date;
     private String reportName;
     private Integer adminId;
     private Integer managerId;
+
 
 }

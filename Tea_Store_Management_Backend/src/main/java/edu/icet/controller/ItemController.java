@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,43 +18,54 @@ import java.util.Map;
 public class ItemController {
     final ItemService itemService;
 
+    // Get all items
     @GetMapping("/get-all")
-    public List<Item> getItem() {
+    public List<Item> getAllItems() {
         return itemService.getItem();
     }
 
+    // Add a new item
     @PostMapping("/add-item")
     @ResponseStatus(HttpStatus.CREATED)
     public void addItem(@RequestPart("item") Item item, @RequestPart("image") MultipartFile imageData) throws IOException {
         itemService.addItem(item, imageData);
     }
 
-    @DeleteMapping("/delete-by-id/{itemId}")
-    public void deleteById(@PathVariable Integer itemId) {
-        itemService.deleteById(itemId);
-    }
-
-    @PutMapping("/update")
+    // Update an existing item
+    @PutMapping("/update-item/{itemId}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateItem(@RequestPart("item") Item item, @RequestPart(value = "image", required = false) MultipartFile imageData) throws IOException {
+    public void updateItem(@PathVariable Integer itemId, @RequestPart("item") Item item, @RequestPart(value = "image", required = false) MultipartFile imageData) throws IOException {
         itemService.updateItem(item, imageData);
     }
 
-
-
-    @GetMapping("/get-item-by-Id/{itemId}")
-    public List<Item> getByItemId(@PathVariable Integer itemId){
-        return itemService.searchByItemId(itemId);
+    // Delete item by ID
+    @DeleteMapping("/delete-by-id/{itemId}")
+    public void deleteItemById(@PathVariable Integer itemId) {
+        itemService.deleteById(itemId);
     }
 
+    // Get item by ID
+    @GetMapping("/get-item-by-id/{itemId}")
+    public ResponseEntity<Item> getItemById(@PathVariable Integer itemId) {
+        Item item = itemService.searchByItemId(itemId).stream().findFirst().orElse(null);
+        return item != null ? ResponseEntity.ok(item) : ResponseEntity.notFound().build();
+    }
+
+    // Get item by name
     @GetMapping("/get-item-by-name/{itemName}")
-    public List<Item> getByName(@PathVariable String itemName){
+    public List<Item> getItemsByName(@PathVariable String itemName) {
         return itemService.searchByItemName(itemName);
     }
 
-    @GetMapping("/get-item-by-teaType/{teaType}")
-    public List<Item> getByTeaType(@PathVariable String teaType){
+    // Get items by tea type
+    @GetMapping("/get-item-by-tea-type/{teaType}")
+    public List<Item> getItemsByTeaType(@PathVariable String teaType) {
         return itemService.searchByTeaType(teaType);
     }
 
+    // Get the image of the item
+    @GetMapping("/get-item-image/{itemId}")
+    public ResponseEntity<byte[]> getItemImage(@PathVariable Integer itemId) {
+        return itemService.getItemImageById(itemId);
+    }
 }

@@ -65,4 +65,15 @@ public class OrderServiceImpl implements OrderService {
         });
         return orderList;
     }
+
+    @Override
+    public double getTotalPrice() {
+        // Find all completed orders
+        List<OrderEntity> completedOrders = repository.findAllByStatus(OrderEntity.Status.Completed);
+
+        // Calculate the total price by summing up the totalPrice for each order
+        return completedOrders.stream()
+                .mapToDouble(order -> order.getTotalPrice() != null ? order.getTotalPrice().doubleValue() : 0.0)  // Handle null values
+                .sum();
+    }
 }

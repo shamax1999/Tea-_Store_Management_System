@@ -51,5 +51,9 @@ public class TeaOrderController {
     public List<Order> getByCustomerId(@PathVariable Integer customerId){
         return orderService.searchByCustomerId(customerId);
     }
+    @GetMapping("/get-total-price")
+    public double getTotalPrice() {
+        return orderService.getTotalPrice();
+    }
 
 }

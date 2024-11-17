@@ -31,7 +31,7 @@ public class Item {
     private Integer managerId;
 
     @Lob
-    @Column(columnDefinition = "LONGBLOB")
+    @Column(name = "image_data", columnDefinition = "LONGBLOB")
     private byte[] imageData;
 
 }
