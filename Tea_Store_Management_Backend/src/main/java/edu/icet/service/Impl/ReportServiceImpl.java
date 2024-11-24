@@ -32,7 +32,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public void addReportWithFile(String reportJson, MultipartFile file) throws Exception {
-        final long MAX_FILE_SIZE = 3221225472L; // 3 GB
+        final long MAX_FILE_SIZE = 3221225472L;
 
         if (file.getSize() > MAX_FILE_SIZE) {
             throw new IllegalArgumentException("File size exceeds the maximum limit of 3GB");

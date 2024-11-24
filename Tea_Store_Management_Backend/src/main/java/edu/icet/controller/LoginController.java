@@ -1,7 +1,5 @@
 package edu.icet.controller;
 
-import edu.icet.dto.Admin;
-import edu.icet.dto.Manager;
 import edu.icet.service.AdminService;
 import edu.icet.service.ManagerService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +27,7 @@ public class LoginController {
                     .filter(admin -> admin.getPassword().equals(password))
                     .map(admin -> {
                         response.put("role", "ADMIN");
-                        response.put("userId", admin.getAdminId().toString());  // Assuming adminId is of type Long or Integer
+                        response.put("userId", admin.getAdminId().toString());
                         return ResponseEntity.ok(response);
                     })
                     .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null));
@@ -38,7 +36,7 @@ public class LoginController {
                     .filter(manager -> manager.getPassword().equals(password))
                     .map(manager -> {
                         response.put("role", "MANAGER");
-                        response.put("userId", manager.getManagerId().toString());  // Assuming managerId is of type Long or Integer
+                        response.put("userId", manager.getManagerId().toString());
                         return ResponseEntity.ok(response);
                     })
                     .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null));

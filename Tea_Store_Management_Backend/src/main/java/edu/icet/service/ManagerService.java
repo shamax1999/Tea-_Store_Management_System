@@ -1,6 +1,5 @@
 package edu.icet.service;
 
-import edu.icet.dto.Admin;
 import edu.icet.dto.Manager;
 
 import java.util.List;

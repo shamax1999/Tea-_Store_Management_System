@@ -21,7 +21,7 @@ public class Admin {
     private String email;
     private String address;
     private String phoneNumber;
-    private String gender; // Should match enum(Male, Female, Other) in your database
+    private String gender;
     private LocalDate dateOfBirth;
     private String password;
 

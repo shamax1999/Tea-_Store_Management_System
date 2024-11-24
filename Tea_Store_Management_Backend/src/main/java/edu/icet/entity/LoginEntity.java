@@ -16,7 +16,7 @@ public class LoginEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String email;  // Email serves as the username for both admin and manager
+    private String email;
     private String password;
 
     @Enumerated(EnumType.STRING)

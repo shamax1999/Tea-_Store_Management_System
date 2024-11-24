@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -21,7 +20,7 @@ public class ItemServiceImpl implements ItemService {
     final itemRepository repository;
     final ModelMapper mapper;
 
-    private static final long MAX_FILE_SIZE = 3221225472L; // 3 GB
+    private static final long MAX_FILE_SIZE = 3221225472L;
 
     @Override
     public List<Item> getItem() {
@@ -44,12 +43,12 @@ public class ItemServiceImpl implements ItemService {
 
         ItemEntity itemEntity = mapper.map(item, ItemEntity.class);
 
-        // Handle image as byte[] directly
+
         if (image != null && !image.isEmpty()) {
-            itemEntity.setImageData(image.getBytes()); // Store image bytes directly
+            itemEntity.setImageData(image.getBytes());
         }
 
-        // Save the item entity to the repository
+
         repository.save(itemEntity);
     }
 
@@ -58,14 +57,14 @@ public class ItemServiceImpl implements ItemService {
         ItemEntity itemEntity = repository.findById(item.getItemId())
                 .orElseThrow(() -> new RuntimeException("Item not found"));
 
-        // Map updated fields to existing itemEntity
+
         mapper.map(item, itemEntity);
 
         if (image != null && !image.isEmpty()) {
             if (image.getSize() > MAX_FILE_SIZE) {
                 throw new IllegalArgumentException("File size exceeds the maximum limit of 3GB");
             }
-            itemEntity.setImageData(image.getBytes()); // Update the image data
+            itemEntity.setImageData(image.getBytes());
         }
 
         repository.save(itemEntity);

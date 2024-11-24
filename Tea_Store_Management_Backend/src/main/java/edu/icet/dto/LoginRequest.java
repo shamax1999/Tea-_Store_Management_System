@@ -1,7 +1,6 @@
 package edu.icet.dto;
 
 import edu.icet.entity.LoginEntity;
-import jakarta.persistence.Entity;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -21,6 +20,6 @@ public class LoginRequest {
 
     private LoginEntity.Role role;
 
-    private Integer adminId;  // added field for admin ID
-    private Integer managerId; // added field for manager ID
+    private Integer adminId;
+    private Integer managerId;
 }

@@ -19,7 +19,7 @@ public class Order {
     private LocalDate orderDate;
     private Integer itemId;
     private String itemName;
-    private String status; // Should match enum(Pending, Completed, Cancelled) in your database
+    private String status;
     private String paymentMethod;
     private BigDecimal totalPrice;
     private Integer quantity;
