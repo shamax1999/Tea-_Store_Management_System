@@ -5,6 +5,11 @@ Here’s a professional and comprehensive README file for your GitHub repository
 
 ---
 
+
+https://github.com/user-attachments/assets/a253951d-16a8-4e92-bcb8-8372228f865a
+
+
+
 # Golden Leaf Tea State Management System  
 
 **Golden Leaf Tea State Management System** is a modern web-based solution designed to streamline and automate the operations of a tea manufacturing facility. It incorporates user management, tea collection tracking, inventory control, order processing, and customer interaction features, all built using **Java**, **Spring Boot**, **Angular**, **MySQL**,**Bootstrap** and other cutting-edge technologies.  
